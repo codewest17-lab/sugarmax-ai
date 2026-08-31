@@ -135,13 +135,53 @@
   function route() { if (!session && location.hash === "#auth") showAuth(false); else if (!session && location.hash !== "#auth") hideAuth(false); }
 
   async function init() {
-    updateAuthMode(); bindEvents();
-    if (!window.supabase?.createClient) { showMessage("Authentication service could not load. Check your internet connection and refresh."); return; }
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    supabaseClient.auth.onAuthStateChange(async (_event, s) => { session = s; if (s) { await ensureProfile(); await openApp(s); } else logoutUI(); });
-    const { data } = await supabaseClient.auth.getSession();
-    if (data?.session) await openApp(data.session); else route();
+  updateAuthMode();
+  bindEvents();
+
+  if (!window.supabase?.createClient) {
+    showMessage("Authentication service could not load. Check your internet connection and refresh.");
+    return;
   }
+
+  supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: "pkce"
+      }
+    }
+  );
+
+  supabaseClient.auth.onAuthStateChange((_event, newSession) => {
+    session = newSession;
+
+    if (newSession) {
+      openApp(newSession);
+    } else {
+      logoutUI();
+    }
+  });
+
+  const { data, error } = await supabaseClient.auth.getSession();
+
+  if (error) {
+    console.error("Session error:", error);
+    logoutUI();
+    return;
+  }
+
+  if (data?.session) {
+    session = data.session;
+    await openApp(data.session);
+  } else {
+    logoutUI();
+    route();
+  }
+}
 
   window.SugarMax = { showAuth, hideAuth };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true }); else init();
