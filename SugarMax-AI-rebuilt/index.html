@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="SugarMax AI analyzes food images and estimates sugar content to help you make more informed food choices.">
+<meta name="theme-color" content="#063b2b">
+<title>SugarMax AI — Smarter food choices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#home" aria-label="SugarMax AI home"><span class="brand-mark">S</span><span>SugarMax <b>AI</b></span></a>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a href="#how">How it works</a><a href="#pricing">Pricing</a><button id="navLogin" class="ghost" type="button">Sign in</button>
+  </nav>
+</header>
+<main>
+<section id="home" class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">AI FOOD INTELLIGENCE</span>
+    <h1>Know what’s on your plate.</h1>
+    <p>Snap a food photo and SugarMax AI estimates sugar content, gives you a clear health rating, and helps you make a more informed choice.</p>
+    <div class="hero-actions"><button id="heroStart" class="primary" type="button">Start your free scan</button><a href="#how" class="text-link">See how it works</a></div>
+    <div class="trust"><span>2 free scans</span><span>Secure analysis</span><span>Mobile friendly</span></div>
+  </div>
+  <div class="hero-card"><div class="phone"><div class="phone-top"><span></span><span>10:09</span><span>•••</span></div><div class="scan-visual"><div class="plate"><div class="food food-a"></div><div class="food food-b"></div><div class="food food-c"></div></div><div class="scan-line"></div></div><div class="result-preview"><div><small>ESTIMATED SUGAR</small><strong>18.4g</strong></div><div class="good">Good choice</div></div></div></div>
+</section>
+<section id="how" class="section"><div class="section-head"><span class="eyebrow">SIMPLE PROCESS</span><h2>From photo to insight in seconds.</h2></div><div class="steps"><article><span>01</span><h3>Capture</h3><p>Take a clear photo of your meal or upload one from your device.</p></article><article><span>02</span><h3>Analyze</h3><p>Our AI identifies the main food and estimates sugar and related nutrition signals.</p></article><article><span>03</span><h3>Decide</h3><p>Get an easy-to-read result, health rating, explanation and practical advice.</p></article></div></section>
+<section id="pricing" class="section pricing"><div class="section-head"><span class="eyebrow">PRICING</span><h2>Start free. Upgrade when you need more.</h2></div><div class="price-card"><div><span class="plan">FREE</span><h3>$0</h3><p>2 lifetime scans</p><ul><li>Food image analysis</li><li>Sugar estimate</li><li>Health rating</li></ul></div><div class="pro-box"><span class="plan">PRO</span><h3>$3 <small>/ 100 scans</small></h3><p>100 additional scans after payment.</p><button id="pricingUpgrade" class="primary" type="button">Get Pro</button></div></div></section>
+<section id="auth" class="auth-wrap hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <button class="close" id="closeAuth" type="button" aria-label="Close sign in">×</button>
+    <span class="eyebrow">SUGARMAX AI</span><h2 id="authTitle">Welcome back</h2><p id="authSub">Sign in to continue analyzing your food.</p>
+    <form id="emailForm" novalidate><label>Email<input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label><label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></label><button class="primary full" type="submit" id="emailSubmit">Sign in</button></form>
+    <div class="divider"><span>or continue with</span></div>
+    <button id="googleBtn" class="oauth google" type="button"><svg class="oauth-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.71-.06-1.4-.18-2.05H12v3.88h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.7 2.91-4.2 2.91-7.22Z"/><path fill="#34A853" d="M12 21.5c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.93-3.31.93-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.74 9.74 0 0 0 12 21.5Z"/><path fill="#FBBC05" d="M6.54 13.59A5.86 5.86 0 0 1 6.23 12c0-.55.11-1.08.31-1.59V7.88H3.3A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.06 1.05 4.12l3.24-2.53Z"/><path fill="#EA4335" d="M12 6.38c1.43 0 2.72.49 3.73 1.46l2.8-2.8C16.84 3.39 14.63 2.5 12 2.5a9.74 9.74 0 0 0-8.7 5.38l3.24 2.53C7.31 8.1 9.46 6.38 12 6.38Z"/></svg>Continue with Google</button>
+    <button id="appleBtn" class="oauth apple" type="button"><svg class="oauth-icon apple-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.67 12.85c.02 2.18 1.91 2.91 1.93 2.92-.02.05-.3 1.04-.99 2.06-.6.89-1.22 1.77-2.2 1.79-.96.02-1.27-.58-2.37-.58-1.1 0-1.45.56-2.36.6-.95.04-1.67-.95-2.27-1.84-1.24-1.8-2.18-5.08-.91-7.3.63-1.1 1.75-1.8 2.96-1.82.93-.02 1.81.63 2.37.63.56 0 1.61-.78 2.72-.67.46.02 1.75.19 2.58 1.44-.07.04-1.54.9-1.52 2.77ZM14.9 5.54c.5-.6.84-1.44.75-2.28-.72.03-1.58.48-2.09 1.08-.46.53-.86 1.38-.75 2.2.8.06 1.6-.4 2.09-1Z"/></svg>Continue with Apple</button>
+    <button id="toggleAuth" class="switch" type="button">Create a new account</button>
+    <p class="tiny">By continuing, you agree to use SugarMax AI as an informational food-estimation tool, not a medical diagnostic service.</p><div id="authMessage" class="message" role="status" aria-live="polite"></div>
+  </div>
+</section>
+<section id="app" class="app hidden"><div class="app-top"><div><span class="eyebrow">YOUR DASHBOARD</span><h2>Food scanner</h2></div><button id="logout" class="ghost" type="button">Sign out</button></div><div class="quota"><div><span>Available scans</span><strong id="quotaText">2</strong></div><div class="bar"><i id="quotaBar"></i></div><button id="appUpgrade" class="primary small" type="button">Upgrade to Pro</button></div><div class="scanner-card"><div id="dropZone" class="drop-zone"><input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" hidden><div class="camera-icon">+</div><h3>Scan your food</h3><p>Take a photo or choose one from your gallery.</p><button id="chooseBtn" class="primary" type="button">Choose food photo</button><button id="cameraBtn" class="secondary" type="button">Use camera</button></div><div id="loading" class="loading hidden"><div class="spinner"></div><h3>Analyzing your food</h3><p>Checking the image and preparing your estimate.</p></div><div id="result" class="result hidden"></div></div><div class="history"><div class="history-head"><h3>Recent scans</h3><button id="refreshHistory" class="ghost" type="button">Refresh</button></div><div id="historyList"></div></div></section>
+</main>
+<footer><span>SugarMax AI</span><span>Food estimates are informational and may not be exact.</span></footer>
+<script src="app.js"></script>
+</body>
+</html>

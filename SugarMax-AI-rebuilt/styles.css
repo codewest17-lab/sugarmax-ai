@@ -1,0 +1,9 @@
+
+/* Rebuilt authentication behavior */
+body.auth-open { overflow: hidden; }
+.auth-wrap { display: grid; }
+.auth-wrap.hidden { display: none !important; }
+.oauth-icon { width: 20px; height: 20px; flex: 0 0 20px; }
+.apple-icon { width: 19px; height: 19px; }
+.message.ok { color: #067647; }
+.muted { color: #667085; }
