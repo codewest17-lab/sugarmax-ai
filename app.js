@@ -81,14 +81,73 @@
   function escapeHtml(v) { return String(v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
 
   async function submitEmail(e) {
-    e.preventDefault(); showMessage("");
-    if (!supabaseClient) return showMessage("Authentication is not ready. Please refresh and try again.");
-    const email = (byId("email")?.value || "").trim(), password = byId("password")?.value || "";
-    if (!email || password.length < 6) return showMessage("Enter a valid email and a password of at least 6 characters.");
-    const result = mode === "signin" ? await supabaseClient.auth.signInWithPassword({ email, password }) : await supabaseClient.auth.signUp({ email, password });
-    if (result.error) return showMessage(result.error.message);
-    if (mode === "signup" && !result.data.session) return showMessage("Account created. Check your email to confirm your account.", true);
-    if (result.data.session) await openApp(result.data.session);
+    e.preventDefault();
+    showMessage("");
+
+    if (!supabaseClient) {
+      return showMessage("Authentication is not ready. Please refresh and try again.");
+    }
+
+    const email = (byId("email")?.value || "").trim();
+    const password = byId("password")?.value || "";
+
+    if (!email) {
+      return showMessage("Please enter your email address.");
+    }
+
+    if (password.length < 6) {
+      return showMessage("Password must be at least 6 characters.");
+    }
+
+    const submit = byId("emailSubmit");
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = mode === "signup" ? "Creating account..." : "Signing in...";
+    }
+
+    try {
+      if (mode === "signup") {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}${window.location.pathname}`
+          }
+        });
+
+        if (error) throw error;
+
+        if (data?.session) {
+          await openApp(data.session);
+        } else {
+          showMessage(
+            "Account created successfully. Check your email and click the confirmation link, then return here to sign in.",
+            true
+          );
+        }
+      } else {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        if (data?.session) {
+          await openApp(data.session);
+        } else {
+          showMessage("Login succeeded, but no session was returned. Please try again.");
+        }
+      }
+    } catch (err) {
+      console.error("Email authentication error:", err);
+      showMessage(err?.message || "Authentication failed. Please try again.");
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = mode === "signup" ? "Create account" : "Sign in";
+      }
+    }
   }
 
   async function analyze(file) {
