@@ -75,3 +75,13 @@ async function startPayment(){
 }
 supabase.auth.onAuthStateChange(async(event,s)=>{if(s){session=s;await ensureProfile();if(!$("#app").classList.contains("hidden"))return;openApp(s)}});
 (async()=>{updateAuthMode();const {data}=await supabase.auth.getSession();if(data.session)openApp(data.session)})();
+
+/* SugarMax AI authentication route fix */
+function routeAuth() {
+  if (window.location.hash === "#auth") {
+    showAuth();
+  }
+}
+
+window.addEventListener("hashchange", routeAuth);
+routeAuth();
