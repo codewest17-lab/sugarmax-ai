@@ -10,20 +10,22 @@
 <body>
 <div id="nav-root"></div>
 
-<header class="section" style="padding-top:64px;padding-bottom:56px;">
+<header class="hero-dark">
+  <div class="reticle" style="width:520px;height:520px;top:-180px;right:-140px;"></div>
+  <div class="reticle" style="width:340px;height:340px;top:-60px;right:-20px;"></div>
   <div class="container">
     <div class="grid-2" style="align-items:center;">
       <div>
-        <p class="eyebrow-plain">AI meal intelligence</p>
-        <h1 style="font-size:3.1rem;">Scan your meal.<br>Know your sugar.</h1>
-        <p style="font-size:1.05rem;max-width:46ch;">Point your camera at any plate. In seconds, SugarMax AI reads the sugar, calories, and full nutrition breakdown — the way a label would, if your food came with one.</p>
-        <div class="flex gap-16 mt-24" style="flex-wrap:wrap;">
-          <a href="auth.html?mode=signup" class="btn btn-primary">Start free scan</a>
+        <p class="eyebrow rise-in rise-in-1" style="font-family:var(--font-label);font-size:0.85rem;font-weight:600;margin-bottom:14px;">AI meal intelligence</p>
+        <h1 class="rise-in rise-in-2" style="font-size:3.2rem;">Scan your meal.<br><em style="font-style:italic;font-weight:500;">Know your sugar.</em></h1>
+        <p class="rise-in rise-in-3" style="font-size:1.08rem;max-width:44ch;">Point your camera at any plate. In seconds, SugarMax AI reads the sugar, calories, and full nutrition breakdown — the way a label would, if your food came with one.</p>
+        <div class="flex gap-16 mt-24 rise-in rise-in-4" style="flex-wrap:wrap;">
+          <a href="auth.html?mode=signup" class="btn btn-honey">Start free scan</a>
           <a href="pricing.html" class="btn btn-outline">View pricing</a>
         </div>
-        <p class="field-hint mt-16">2 free scans, no card required.</p>
+        <p class="field-hint mt-16 rise-in rise-in-4" style="color:rgba(250,248,242,0.5);">2 free scans, no card required.</p>
       </div>
-      <div>
+      <div class="float-card-wrap">
         <div class="label-block">
           <div class="label-row hero">
             <span class="name">Sugar per serving</span>
@@ -41,25 +43,32 @@
   </div>
 </header>
 
-<hr class="section-divider">
-
 <section class="section" id="how-it-works">
   <div class="container">
-    <h2 style="font-size:1.9rem;max-width:20ch;">Three steps between you and knowing what's actually in your food.</h2>
+    <h2 style="font-size:2rem;max-width:22ch;">Three steps between you and knowing what's actually in your food.</h2>
     <div class="grid-3 mt-40">
       <div>
-        <div class="badge badge-forest">01</div>
-        <h3 class="mt-16" style="font-size:1.2rem;">Snap a photo</h3>
+        <div class="icon-tile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 012-2h1.2l.6-1.2A2 2 0 019.6 3.6h4.8a2 2 0 011.8 1.2l.6 1.2H18a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="#0F2A20" stroke-width="1.6"/><circle cx="12" cy="13" r="3.2" stroke="#0F2A20" stroke-width="1.6"/></svg>
+        </div>
+        <span class="step-num">Step 01</span>
+        <h3 class="mt-8" style="font-size:1.2rem;">Snap a photo</h3>
         <p>Take a picture of your meal, or upload one from your camera roll.</p>
       </div>
       <div>
-        <div class="badge badge-forest">02</div>
-        <h3 class="mt-16" style="font-size:1.2rem;">AI reads the plate</h3>
+        <div class="icon-tile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" stroke="#0F2A20" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 15l.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7.7-2.1z" stroke="#0F2A20" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="step-num">Step 02</span>
+        <h3 class="mt-8" style="font-size:1.2rem;">AI reads the plate</h3>
         <p>Our model identifies each food, estimates portion size, and calculates sugar, calories, and macros.</p>
       </div>
       <div>
-        <div class="badge badge-forest">03</div>
-        <h3 class="mt-16" style="font-size:1.2rem;">Get the full picture</h3>
+        <div class="icon-tile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 19V11M11 19V5M18 19v-6" stroke="#0F2A20" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <span class="step-num">Step 03</span>
+        <h3 class="mt-8" style="font-size:1.2rem;">Get the full picture</h3>
         <p>See a clear nutrition breakdown and a plain-language insight — saved to your history automatically.</p>
       </div>
     </div>
@@ -72,7 +81,6 @@
   <div class="container">
     <div class="grid-2" style="align-items:start;">
       <div>
-        <p class="eyebrow-plain">Why sugar</p>
         <h2 style="font-size:1.9rem;">Sugar hides in places you don't expect.</h2>
         <p>Sauces, "healthy" smoothies, granola, dressing — added sugar shows up far more than nutrition labels let on, and most meals you eat outside your kitchen have no label at all. SugarMax AI closes that gap in the moment you're deciding what to eat, not after.</p>
       </div>
@@ -88,19 +96,17 @@
   </div>
 </section>
 
-<hr class="section-divider">
-
-<section class="section text-center">
+<section class="cta-band">
   <div class="container-narrow">
-    <h2 style="font-size:2rem;">Ready to see what's on your plate?</h2>
-    <p class="text-center" style="margin:0 auto 24px;">Your first two scans are free. No credit card needed to start.</p>
-    <a href="auth.html?mode=signup" class="btn btn-primary">Start free scan</a>
+    <h2 style="font-size:2.1rem;color:var(--paper);">Ready to see what's on your plate?</h2>
+    <p style="margin:0 auto 28px;">Your first two scans are free. No credit card needed to start.</p>
+    <a href="auth.html?mode=signup" class="btn btn-honey">Start free scan</a>
   </div>
 </section>
 
 <div id="footer-root"></div>
 
 <script src="js/components.js"></script>
-<script>renderPublicNav("how"); renderFooter();</script>
+<script>renderPublicNav("how", "", true); renderFooter();</script>
 </body>
 </html>

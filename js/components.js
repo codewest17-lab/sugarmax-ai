@@ -1,19 +1,23 @@
 // SugarMax AI — shared nav + footer, rendered into #nav-root / #footer-root
 
-function renderPublicNav(active, base = "") {
+function logoMark(onDark) {
+  return `<span class="mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.9L18.5 9.5l-4.9 1.6L12 16l-1.6-4.9L5.5 9.5l4.9-1.6L12 3z" fill="#F0B429"/></svg></span>`;
+}
+
+function renderPublicNav(active, base = "", onDark = false) {
   const root = document.getElementById("nav-root");
   if (!root) return;
   const link = (href, label, key) =>
     `<a href="${base}${href}" class="${active === key ? "active" : ""}">${label}</a>`;
   root.innerHTML = `
-    <nav class="nav">
+    <nav class="nav${onDark ? " on-dark" : ""}">
       <div class="nav-inner">
-        <a href="${base}index.html" class="nav-logo">SugarMax<span class="dot">.</span>AI</a>
+        <a href="${base}index.html" class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</a>
         <ul class="nav-links">
           <li>${link("index.html#how-it-works", "How it works", "how")}</li>
           <li>${link("pricing.html", "Pricing", "pricing")}</li>
           <li>${link("auth.html", "Log in", "login")}</li>
-          <li><a href="${base}auth.html?mode=signup" class="btn btn-primary btn-sm">Start free scan</a></li>
+          <li><a href="${base}auth.html?mode=signup" class="btn ${onDark ? "btn-honey" : "btn-primary"} btn-sm">Start free scan</a></li>
         </ul>
       </div>
     </nav>`;
@@ -27,7 +31,7 @@ async function renderAppNav(active, base = "") {
   root.innerHTML = `
     <nav class="nav">
       <div class="nav-inner">
-        <a href="${base}dashboard.html" class="nav-logo">SugarMax<span class="dot">.</span>AI</a>
+        <a href="${base}dashboard.html" class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</a>
         <ul class="nav-links">
           <li>${link("dashboard.html", "Dashboard", "dashboard")}</li>
           <li>${link("scan.html", "Scan", "scan")}</li>
@@ -50,7 +54,7 @@ function renderFooter(base = "") {
   root.innerHTML = `
     <footer class="footer">
       <div class="container">
-        <div class="nav-logo">SugarMax<span class="dot">.</span>AI</div>
+        <div class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</div>
         <p class="mt-8" style="max-width:44ch">Scan your meal. Know your sugar. AI-powered nutrition insight for every plate.</p>
         <ul class="footer-links">
           <li><a href="${legalBase}privacy.html">Privacy Policy</a></li>
