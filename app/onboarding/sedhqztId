@@ -1,0 +1,115 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const SCREENS = [
+  {
+    icon: "🍽️",
+    heading: "Know What's In Your Meal.",
+    desc: "Take a photo of your meal and discover its estimated sugar and nutritional information in seconds.",
+  },
+  {
+    icon: "🤖",
+    heading: "Scan Your Meal With AI.",
+    desc: "Upload or capture a photo and let SugarMax AI identify the foods and analyze the meal.",
+  },
+  {
+    icon: "🍬",
+    heading: "See Your Sugar Clearly.",
+    desc: "Understand estimated sugar levels and nutritional information without manually searching for every ingredient.",
+  },
+  {
+    icon: "📚",
+    heading: "Keep Your Meals Organized.",
+    desc: "Save your analyses and revisit your previous meals whenever you want.",
+  },
+];
+
+export default function Onboarding() {
+  const [step, setStep] = useState(0);
+  const router = useRouter();
+
+  const last = step === SCREENS.length; // final "Get Started" screen
+  const total = SCREENS.length;
+
+  const next = () => {
+    if (step < total) setStep(step + 1);
+  };
+
+  const current = last
+    ? {
+        icon: "🚀",
+        heading: "Ready to Scan?",
+        desc: "Create a free account to start scanning your meals.",
+      }
+    : SCREENS[step];
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#f7f9fc]">
+      {/* top bar */}
+      <div className="mx-auto flex w-full max-w-md items-center justify-between px-4 py-5">
+        <div className="flex items-center gap-2 font-extrabold text-ink">
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-brand-600 text-white">🍬</span>
+          SugarMax<span className="text-brand-600">AI</span>
+        </div>
+        {!last && (
+          <button onClick={() => router.push("/signup")} className="btn-ghost text-sm">
+            Skip
+          </button>
+        )}
+      </div>
+
+      {/* progress */}
+      {!last && (
+        <div className="mx-auto w-full max-w-md px-8">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+            <div
+              className="h-full rounded-full bg-brand-600 transition-all duration-500"
+              style={{ width: `${((step + 1) / total) * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* content */}
+      <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 text-center">
+        <div
+          key={step}
+          className="grid h-32 w-32 place-items-center rounded-3xl bg-white text-6xl shadow-soft animate-fade-up"
+        >
+          {current!.icon}
+        </div>
+        <h1 className="mt-8 max-w-md text-3xl font-extrabold leading-tight text-ink animate-fade-up">
+          {current!.heading}
+        </h1>
+        <p className="mt-4 max-w-sm text-ink-muted animate-fade-up">{current!.desc}</p>
+      </div>
+
+      {/* footer */}
+      <div className="mx-auto w-full max-w-md px-6 pb-10">
+        {last ? (
+          <div className="space-y-3">
+            <Link href="/signup" className="btn-primary w-full py-4 text-base">Create Free Account</Link>
+            <Link href="/login" className="btn-secondary w-full py-4 text-base">Sign In</Link>
+          </div>
+        ) : (
+          <button onClick={next} className="btn-primary w-full py-4 text-base">
+            {step === total - 1 ? "Get Started" : "Next"}
+          </button>
+        )}
+        <div className="mt-6 flex justify-center gap-2">
+          {SCREENS.map((_, i) => (
+            <span
+              key={i}
+              className={`h-2 rounded-full transition-all ${
+                i === step ? "w-6 bg-brand-600" : "w-2 bg-slate-300"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
