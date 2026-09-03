@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="container section">
+  <div class="text-center">
+    <p class="eyebrow-plain" style="text-align:center;">Pricing</p>
+    <h1 style="font-size:2.1rem;">Simple, honest pricing.</h1>
+    <p style="margin:0 auto;">Start free. Upgrade when you want more scans and deeper history.</p>
+  </div>
+
+  <div id="alert-box" class="mt-24"></div>
+
+  <div class="grid-2 mt-40" style="max-width:800px;margin:40px auto 0;align-items:stretch;">
+    <div class="card" style="display:flex;flex-direction:column;">
+      <div class="badge badge-outline" style="align-self:flex-start;">Free</div>
+      <h2 class="mt-16" style="font-size:1.8rem;">$0</h2>
+      <p class="muted">Forever</p>
+      <ul style="padding-left:20px;color:var(--ink-soft);flex:1;">
+        <li>2 lifetime scans</li>
+        <li>Basic AI analysis</li>
+        <li>Sugar, calorie & macro breakdown</li>
+      </ul>
+      <a href="auth.html?mode=signup" class="btn btn-outline btn-block" id="free-cta">Get started</a>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;border-color:var(--honey-deep);border-width:3px;">
+      <div class="badge badge-honey" style="align-self:flex-start;">SugarMax Pro</div>
+      <h2 class="mt-16" style="font-size:1.8rem;">$9.99<span style="font-size:1rem;font-weight:400;color:var(--ink-soft);">/month</span></h2>
+      <p class="muted">Billed monthly, cancel anytime</p>
+      <ul style="padding-left:20px;color:var(--ink-soft);flex:1;">
+        <li>200 AI meal scans / month</li>
+        <li>Full nutrition breakdown</li>
+        <li>Detailed sugar analysis</li>
+        <li>Complete scan history</li>
+        <li>Premium insights</li>
+      </ul>
+      <button class="btn btn-primary btn-block" id="upgrade-cta">Upgrade to Pro</button>
+    </div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/components.js"></script>
+<script src="js/pricing.js"></script>
+<script>renderPublicNav("pricing"); renderFooter();</script>
+</body>
+</html>

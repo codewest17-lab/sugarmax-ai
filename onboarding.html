@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  body { display:flex; flex-direction:column; min-height:100vh; }
+  .onboard-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:32px; }
+  .onboard-card { max-width:480px; width:100%; text-align:center; }
+  .progress-dots { display:flex; gap:8px; justify-content:center; margin-bottom:40px; }
+  .dot-ind { width:32px; height:4px; background:var(--line-soft); border-radius:2px; transition:background 0.2s; }
+  .dot-ind.active { background:var(--forest); }
+  .screen { display:none; }
+  .screen.active { display:block; animation: fadeUp 0.35s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:translateY(0);} }
+  .icon-mark { width:64px;height:64px;border:3px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:var(--font-display);font-size:1.6rem;background:var(--honey);}
+  .feature-list { text-align:left; list-style:none; padding:0; margin:24px 0; }
+  .feature-list li { padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:0.95rem; }
+  .feature-list li:last-child { border-bottom:none; }
+</style>
+</head>
+<body>
+<div class="onboard-wrap">
+  <div class="onboard-card">
+    <div class="progress-dots">
+      <div class="dot-ind active" data-dot="1"></div>
+      <div class="dot-ind" data-dot="2"></div>
+      <div class="dot-ind" data-dot="3"></div>
+      <div class="dot-ind" data-dot="4"></div>
+    </div>
+
+    <div class="screen active" data-screen="1">
+      <div class="icon-mark">01</div>
+      <h1 style="font-size:1.7rem;">Understand Your Food Better</h1>
+      <p class="text-center" style="margin:0 auto;">Scan your meals and discover estimated sugar levels and nutrition information instantly.</p>
+      <button class="btn btn-primary btn-block mt-40" onclick="goTo(2)">Continue</button>
+    </div>
+
+    <div class="screen" data-screen="2">
+      <div class="icon-mark">02</div>
+      <h1 style="font-size:1.7rem;">AI-Powered Meal Scanning</h1>
+      <p class="text-center" style="margin:0 auto;">Take a photo of your meal and let AI identify foods, estimate sugar, and analyze nutrition.</p>
+      <button class="btn btn-primary btn-block mt-40" onclick="goTo(3)">Continue</button>
+    </div>
+
+    <div class="screen" data-screen="3">
+      <div class="icon-mark">03</div>
+      <h1 style="font-size:1.7rem;">Make Better Food Decisions</h1>
+      <p class="text-center" style="margin:0 auto;">Track your meals and understand your eating habits with intelligent insights.</p>
+      <button class="btn btn-primary btn-block mt-40" onclick="goTo(4)">Continue</button>
+    </div>
+
+    <div class="screen" data-screen="4">
+      <div class="icon-mark" style="background:var(--forest);color:var(--paper);">04</div>
+      <h1 style="font-size:1.7rem;">Premium Features</h1>
+      <ul class="feature-list">
+        <li>Advanced meal analysis</li>
+        <li>Full scan history</li>
+        <li>200 monthly scans</li>
+        <li>Detailed nutritional insights</li>
+      </ul>
+      <a href="auth.html?mode=signup" class="btn btn-primary btn-block mt-16">Create your account</a>
+      <a href="auth.html" class="btn btn-outline btn-block mt-16">I already have an account</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goTo(n) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.querySelector(`.screen[data-screen="${n}"]`).classList.add("active");
+    document.querySelectorAll(".dot-ind").forEach(d => d.classList.remove("active"));
+    for (let i = 1; i <= n; i++) document.querySelector(`.dot-ind[data-dot="${i}"]`).classList.add("active");
+  }
+</script>
+</body>
+</html>

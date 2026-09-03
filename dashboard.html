@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="container section">
+  <div id="greeting-block">
+    <h1 id="greeting" style="font-size:2rem;">Welcome back</h1>
+    <p id="sub-status" class="muted">Loading your account…</p>
+  </div>
+
+  <div class="grid-2 mt-24" style="align-items:start;">
+    <div class="label-block">
+      <div class="label-row hero">
+        <span class="name">Scans remaining</span>
+        <span class="value" id="scans-remaining">—</span>
+      </div>
+      <div class="label-row"><span class="name">Plan</span><span class="value" id="plan-name">—</span></div>
+      <div class="label-row"><span class="name">Renews / resets</span><span class="value" id="renews-on">—</span></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:1.1rem;">Ready to scan?</h3>
+      <p>Snap a photo of your meal and get sugar, calories, and full nutrition in seconds.</p>
+      <a href="scan.html" class="btn btn-primary btn-block">Upload meal photo</a>
+      <a href="pricing.html" class="btn btn-outline btn-block mt-16" id="upgrade-btn" style="display:none;">Upgrade to Pro</a>
+    </div>
+  </div>
+
+  <div class="mt-40">
+    <div class="flex justify-between items-center">
+      <h2 style="font-size:1.3rem;margin:0;">Recent scans</h2>
+      <a href="history.html" style="font-size:0.9rem;text-decoration:underline;">View all</a>
+    </div>
+    <div id="recent-scans" class="mt-16">
+      <p class="muted">Loading…</p>
+    </div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/components.js"></script>
+<script src="js/dashboard.js"></script>
+<script>renderAppNav("dashboard"); renderFooter();</script>
+</body>
+</html>

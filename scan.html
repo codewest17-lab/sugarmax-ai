@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan a meal — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="container-narrow section">
+  <h1 style="font-size:1.9rem;">Scan your meal</h1>
+  <p id="scans-left-note" class="muted">Loading your scan balance…</p>
+
+  <div id="alert-box"></div>
+
+  <div id="upload-stage">
+    <div class="dropzone" id="dropzone">
+      <div id="dropzone-empty">
+        <p style="font-weight:600;color:var(--ink);margin-bottom:6px;">Drop a photo, or tap to choose one</p>
+        <p class="field-hint">JPG or PNG, up to 8MB</p>
+      </div>
+      <img id="preview-img" class="preview" style="display:none;">
+      <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" capture="environment" style="display:none;">
+    </div>
+    <button class="btn btn-primary btn-block mt-24" id="analyze-btn" disabled>Analyze meal</button>
+  </div>
+
+  <div id="loading-stage" style="display:none;text-align:center;padding:48px 0;">
+    <div class="spinner"></div>
+    <p class="mt-16" style="font-weight:600;color:var(--ink);">Reading your plate…</p>
+    <p class="muted">Identifying foods and estimating nutrition. This takes a few seconds.</p>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/components.js"></script>
+<script src="js/scan.js"></script>
+<script>renderAppNav("scan"); renderFooter();</script>
+</body>
+</html>

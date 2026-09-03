@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan history — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="container section">
+  <div class="flex justify-between items-center" style="flex-wrap:wrap;gap:16px;">
+    <h1 style="font-size:1.9rem;margin:0;">Scan history</h1>
+    <input type="search" id="search-input" placeholder="Search meals…" style="padding:10px 14px;border:2px solid var(--line);border-radius:3px;font-family:var(--font-body);min-width:220px;">
+  </div>
+  <div id="history-list" class="mt-24">
+    <p class="muted">Loading…</p>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/components.js"></script>
+<script src="js/history.js"></script>
+<script>renderAppNav("history"); renderFooter();</script>
+</body>
+</html>
