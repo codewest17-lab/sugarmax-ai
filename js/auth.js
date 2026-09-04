@@ -30,6 +30,7 @@ function switchTab(which) {
 // Deep-link support: auth.html?mode=signup
 const params = new URLSearchParams(window.location.search);
 if (params.get("mode") === "signup") switchTab("signup");
+const nextPage = params.get("next") || "dashboard.html";
 
 // ---------- Email sign in ----------
 document.getElementById("signin-form").addEventListener("submit", async (e) => {
@@ -50,7 +51,7 @@ document.getElementById("signin-form").addEventListener("submit", async (e) => {
     btn.textContent = "Log in";
     return;
   }
-  window.location.href = "dashboard.html";
+  window.location.href = nextPage;
 });
 
 // ---------- Email sign up ----------

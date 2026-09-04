@@ -9,7 +9,10 @@ const FUNCTIONS_URL = "https://wobroovxjugckroijuse.supabase.co/functions/v1";
 document.getElementById("upgrade-cta").addEventListener("click", async () => {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) {
-    window.location.href = "auth.html?mode=signup";
+    showAlert("You'll need to log in first — redirecting you now.");
+    setTimeout(() => {
+      window.location.href = "auth.html?next=pricing.html";
+    }, 1200);
     return;
   }
 

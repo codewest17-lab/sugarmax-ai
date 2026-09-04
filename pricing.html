@@ -72,6 +72,16 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/components.js"></script>
 <script src="js/pricing.js"></script>
-<script>renderPublicNav("pricing"); renderFooter();</script>
+<script>
+(async function initNav() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session) {
+    await renderAppNav("");
+  } else {
+    renderPublicNav("pricing");
+  }
+  renderFooter();
+})();
+</script>
 </body>
 </html>

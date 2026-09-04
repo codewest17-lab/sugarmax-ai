@@ -43,6 +43,7 @@ body {
   color: var(--ink);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
@@ -82,10 +83,12 @@ button { font-family: inherit; }
 .nav-inner {
   max-width: 1160px;
   margin: 0 auto;
-  padding: 16px 28px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 10px;
 }
 .nav-logo {
   font-family: var(--font-label);
@@ -352,6 +355,18 @@ a.card:hover, .card.interactive:hover {
   .nav-links { gap: 14px; }
   .section { padding: 52px 0; }
   .hero-dark { padding: 56px 0 72px; }
+}
+
+@media (max-width: 560px) {
+  .nav-links { gap: 10px; width: 100%; justify-content: space-between; }
+  .nav-links li:not(:last-child) a { font-size: 0.82rem; white-space: nowrap; }
+  .nav-links li:last-child { margin-left: auto; }
+  .nav-links .btn-sm { padding: 8px 14px; font-size: 0.78rem; white-space: nowrap; }
+  .nav-logo { font-size: 1rem; }
+}
+
+@media (max-width: 420px) {
+  .nav-links li:nth-child(1) { display: none; } /* hide "How it works" first — least essential on tiny screens */
 }
 
 /* ============ FOOTER ============ */
