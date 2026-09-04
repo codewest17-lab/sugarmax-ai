@@ -2,7 +2,7 @@
 // Requires the logged-in user's profile to have is_admin = true.
 
 function fmtMoney(n) {
-  return `$${Number(n || 0).toFixed(2)}`;
+  return `₦${Number(n || 0).toLocaleString()}`;
 }
 function fmtDate(d) {
   return new Date(d).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });

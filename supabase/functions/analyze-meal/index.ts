@@ -19,6 +19,20 @@ function json(body: unknown, status = 200) {
   });
 }
 
+// Converts an ArrayBuffer to base64 without spreading the whole array as
+// function arguments (which overflows the call stack on real photo-sized
+// images from a phone camera, typically several MB).
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000; // 32KB chunks
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+  return btoa(binary);
+}
+
 const ANALYSIS_PROMPT = `You are a nutrition analysis AI. Analyze the food image provided and respond with ONLY a JSON object, no markdown, no preamble, matching this exact shape:
 
 {
@@ -88,12 +102,12 @@ Deno.serve(async (req: Request) => {
     }
 
     const arrayBuffer = await fileData.arrayBuffer();
-    const base64Image = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    const base64Image = arrayBufferToBase64(arrayBuffer);
     const mimeType = fileData.type || "image/jpeg";
 
     // Call Gemini
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,13 +120,14 @@ Deno.serve(async (req: Request) => {
               ],
             },
           ],
-          generationConfig: { temperature: 0.2, responseMimeType: "application/json" },
+          generationConfig: { responseMimeType: "application/json" },
         }),
       }
     );
 
     if (!geminiRes.ok) {
       const errText = await geminiRes.text();
+      console.error("analyze-meal: Gemini rejected request:", geminiRes.status, errText);
       await supabase.from("scans").update({ status: "failed", error_message: "AI analysis failed" }).eq("id", scan_id);
       return json({ error: "AI analysis failed", details: errText }, 502);
     }
@@ -165,6 +180,7 @@ Deno.serve(async (req: Request) => {
 
     return json({ success: true, scan_id, deducted });
   } catch (err) {
+    console.error("analyze-meal error:", err);
     return json({ error: "Internal error", details: String(err) }, 500);
   }
 });

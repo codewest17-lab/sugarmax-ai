@@ -5,7 +5,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const PAYSTACK_SECRET_KEY = Deno.env.get("PAYSTACK_SECRET_KEY")!;
-const PRO_PLAN_AMOUNT_USD = 9.99;
+const PRO_PLAN_AMOUNT_NGN = 100; // TEMP: testing price — restore to 3000 before real launch
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -34,8 +34,8 @@ Deno.serve(async (req: Request) => {
     const user = userData.user;
     const { callback_url } = await req.json();
 
-    // Paystack amounts are in the smallest currency unit (kobo for NGN, cents for USD)
-    const amountInSubunits = Math.round(PRO_PLAN_AMOUNT_USD * 100);
+    // Paystack amounts are in the smallest currency unit — kobo for NGN
+    const amountInSubunits = Math.round(PRO_PLAN_AMOUNT_NGN * 100);
     const reference = `sugarmax_${user.id.slice(0, 8)}_${Date.now()}`;
 
     const paystackRes = await fetch("https://api.paystack.co/transaction/initialize", {
@@ -47,7 +47,7 @@ Deno.serve(async (req: Request) => {
       body: JSON.stringify({
         email: user.email,
         amount: amountInSubunits,
-        currency: "USD",
+        currency: "NGN",
         reference,
         callback_url: callback_url ?? undefined,
         metadata: { user_id: user.id, plan: "pro" },
@@ -56,6 +56,7 @@ Deno.serve(async (req: Request) => {
 
     const paystackData = await paystackRes.json();
     if (!paystackRes.ok || !paystackData.status) {
+      console.error("paystack-init: Paystack rejected request:", JSON.stringify(paystackData));
       return json({ error: "Could not initialize payment", details: paystackData }, 502);
     }
 
@@ -63,8 +64,8 @@ Deno.serve(async (req: Request) => {
     await supabase.from("payments").insert({
       user_id: user.id,
       paystack_reference: reference,
-      amount: PRO_PLAN_AMOUNT_USD,
-      currency: "USD",
+      amount: PRO_PLAN_AMOUNT_NGN,
+      currency: "NGN",
       status: "pending",
       plan: "pro",
     });
@@ -75,6 +76,7 @@ Deno.serve(async (req: Request) => {
       reference,
     });
   } catch (err) {
+    console.error("paystack-init error:", err);
     return json({ error: "Internal error", details: String(err) }, 500);
   }
 });
