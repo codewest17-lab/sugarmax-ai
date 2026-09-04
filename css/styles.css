@@ -357,16 +357,15 @@ a.card:hover, .card.interactive:hover {
   .hero-dark { padding: 56px 0 72px; }
 }
 
-@media (max-width: 560px) {
-  .nav-links { gap: 10px; width: 100%; justify-content: space-between; }
-  .nav-links li:not(:last-child) a { font-size: 0.82rem; white-space: nowrap; }
-  .nav-links li:last-child { margin-left: auto; }
-  .nav-links .btn-sm { padding: 8px 14px; font-size: 0.78rem; white-space: nowrap; }
-  .nav-logo { font-size: 1rem; }
-}
-
-@media (max-width: 420px) {
-  .nav-links li:nth-child(1) { display: none; } /* hide "How it works" first — least essential on tiny screens */
+@media (max-width: 640px) {
+  .nav-inner { flex-wrap: nowrap; padding: 12px 16px; }
+  .nav-logo { font-size: 0.95rem; }
+  .nav-logo .mark { width: 22px; height: 22px; }
+  .nav-links { gap: 8px; }
+  /* Drop the least-essential text links on small screens rather than
+     trying to shrink everything to fit — deterministic, never overflows. */
+  .nav-links li.nav-optional { display: none; }
+  .nav-links .btn-sm { padding: 8px 12px; font-size: 0.74rem; white-space: nowrap; }
 }
 
 /* ============ FOOTER ============ */

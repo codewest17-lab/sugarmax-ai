@@ -14,8 +14,8 @@ function renderPublicNav(active, base = "", onDark = false) {
       <div class="nav-inner">
         <a href="${base}index.html" class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</a>
         <ul class="nav-links">
-          <li>${link("index.html#how-it-works", "How it works", "how")}</li>
-          <li>${link("pricing.html", "Pricing", "pricing")}</li>
+          <li class="nav-optional">${link("index.html#how-it-works", "How it works", "how")}</li>
+          <li class="nav-optional">${link("pricing.html", "Pricing", "pricing")}</li>
           <li>${link("auth.html", "Log in", "login")}</li>
           <li><a href="${base}auth.html?mode=signup" class="btn ${onDark ? "btn-honey" : "btn-primary"} btn-sm">Start free scan</a></li>
         </ul>
@@ -35,8 +35,8 @@ async function renderAppNav(active, base = "") {
         <ul class="nav-links">
           <li>${link("dashboard.html", "Dashboard", "dashboard")}</li>
           <li>${link("scan.html", "Scan", "scan")}</li>
-          <li>${link("history.html", "History", "history")}</li>
-          <li>${link("settings.html", "Settings", "settings")}</li>
+          <li class="nav-optional">${link("history.html", "History", "history")}</li>
+          <li class="nav-optional">${link("settings.html", "Settings", "settings")}</li>
           <li><a href="#" id="nav-signout" class="btn btn-outline btn-sm">Log out</a></li>
         </ul>
       </div>
