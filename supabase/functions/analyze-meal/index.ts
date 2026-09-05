@@ -54,11 +54,18 @@ confidence_score must be between 0 and 1. All numeric nutrition fields are your 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  // Tracked outside the try block so the catch-all handler below can still
+  // mark the scan as failed even if the crash happens partway through —
+  // otherwise an unexpected error leaves the row stuck at pending/processing
+  // forever with no way for the user to retry it.
+  let supabase: ReturnType<typeof createClient> | null = null;
+  let trackedScanId: string | null = null;
+
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) return json({ error: "Missing authorization" }, 401);
 
-    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+    supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
 
     // Verify the calling user from their JWT
     const token = authHeader.replace("Bearer ", "");
@@ -68,6 +75,7 @@ Deno.serve(async (req: Request) => {
 
     const { scan_id } = await req.json();
     if (!scan_id) return json({ error: "scan_id is required" }, 400);
+    trackedScanId = scan_id;
 
     // Load scan and confirm ownership
     const { data: scan, error: scanErr } = await supabase
@@ -181,6 +189,13 @@ Deno.serve(async (req: Request) => {
     return json({ success: true, scan_id, deducted });
   } catch (err) {
     console.error("analyze-meal error:", err);
+    if (supabase && trackedScanId) {
+      try {
+        await supabase.from("scans").update({ status: "failed", error_message: "Unexpected error" }).eq("id", trackedScanId);
+      } catch (updateErr) {
+        console.error("analyze-meal: failed to mark scan as failed after crash:", updateErr);
+      }
+    }
     return json({ error: "Internal error", details: String(err) }, 500);
   }
 });
