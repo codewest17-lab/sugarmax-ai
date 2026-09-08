@@ -24,6 +24,7 @@
 
 <div class="auth-wrap">
   <div class="auth-card">
+    <div id="auth-forms-wrap">
     <div class="tabs">
       <button class="tab-btn active" id="tab-signin" onclick="switchTab('signin')">Log in</button>
       <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Sign up</button>
@@ -81,6 +82,21 @@
     </form>
 
     <p class="text-center mt-24" style="font-size:0.85rem;">By continuing you agree to our <a href="legal/terms.html" style="text-decoration:underline;">Terms</a> and <a href="legal/privacy.html" style="text-decoration:underline;">Privacy Policy</a>.</p>
+    </div>
+
+    <!-- CHECK YOUR EMAIL (shown after signup, replaces the forms above) -->
+    <div id="confirm-email-view" class="hidden text-center">
+      <div class="icon-tile" style="margin:0 auto 20px;width:56px;height:56px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" stroke="#F0B429" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="#F0B429" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h1 style="font-size:1.5rem;">Check your email</h1>
+      <p style="margin:0 auto 4px;">We've sent a confirmation link to</p>
+      <p style="margin:0 auto 20px;font-weight:600;color:var(--ink);" id="confirm-email-address">—</p>
+      <p style="font-size:0.9rem;margin:0 auto 24px;">Click the link in that email to verify your account, then come back here to log in. Be sure to check your spam folder if it doesn't show up in a minute or two.</p>
+      <div id="confirm-alert-box"></div>
+      <button class="btn btn-outline btn-block" id="resend-confirmation-btn">Resend confirmation email</button>
+      <a href="#" class="btn btn-outline btn-block mt-16" id="back-to-login-link">Back to log in</a>
+    </div>
   </div>
 </div>
 
