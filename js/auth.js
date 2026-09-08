@@ -43,15 +43,42 @@ document.getElementById("signin-form").addEventListener("submit", async (e) => {
   const email = document.getElementById("signin-email").value.trim();
   const password = document.getElementById("signin-password").value;
 
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  try {
+    const res = await fetch("https://wobroovxjugckroijuse.supabase.co/functions/v1/secure-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const result = await res.json();
 
-  if (error) {
-    showAlert(error.message);
+    if (!res.ok) {
+      showAlert(result.error || "Could not log in. Please try again.");
+      btn.disabled = false;
+      btn.textContent = "Log in";
+      return;
+    }
+
+    // Hydrate the client SDK with the session issued by the edge function,
+    // so subsequent calls (getSession, RLS-authenticated requests) work
+    // exactly as if signInWithPassword had been called directly.
+    const { error: sessionError } = await supabaseClient.auth.setSession({
+      access_token: result.access_token,
+      refresh_token: result.refresh_token,
+    });
+
+    if (sessionError) {
+      showAlert(sessionError.message);
+      btn.disabled = false;
+      btn.textContent = "Log in";
+      return;
+    }
+
+    window.location.href = nextPage;
+  } catch (err) {
+    showAlert("Could not reach the server. Please check your connection and try again.");
     btn.disabled = false;
     btn.textContent = "Log in";
-    return;
   }
-  window.location.href = nextPage;
 });
 
 // ---------- Email sign up ----------
