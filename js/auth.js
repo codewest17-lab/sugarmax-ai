@@ -123,39 +123,8 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
     // Email confirmation disabled — user is signed in immediately
     window.location.href = "onboarding.html";
   } else {
-    showConfirmEmailView(email);
+    window.location.href = "confirm-email.html?email=" + encodeURIComponent(email);
   }
-});
-
-function showConfirmEmailView(email) {
-  document.getElementById("auth-forms-wrap").classList.add("hidden");
-  document.getElementById("confirm-email-view").classList.remove("hidden");
-  document.getElementById("confirm-email-address").textContent = email;
-}
-
-document.getElementById("back-to-login-link").addEventListener("click", (e) => {
-  e.preventDefault();
-  document.getElementById("confirm-email-view").classList.add("hidden");
-  document.getElementById("auth-forms-wrap").classList.remove("hidden");
-  switchTab("signin");
-});
-
-document.getElementById("resend-confirmation-btn").addEventListener("click", async () => {
-  const email = document.getElementById("confirm-email-address").textContent;
-  const btn = document.getElementById("resend-confirmation-btn");
-  btn.disabled = true;
-  btn.textContent = "Sending…";
-
-  const confirmAlertBox = document.getElementById("confirm-alert-box");
-  const { error } = await supabaseClient.auth.resend({ type: "signup", email });
-
-  if (error) {
-    confirmAlertBox.innerHTML = `<div class="alert alert-error">${error.message}</div>`;
-  } else {
-    confirmAlertBox.innerHTML = `<div class="alert alert-success">Confirmation email resent.</div>`;
-  }
-  btn.disabled = false;
-  btn.textContent = "Resend confirmation email";
 });
 
 // ---------- Forgot password ----------

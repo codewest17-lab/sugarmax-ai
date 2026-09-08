@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check your email — SugarMax AI</title>
+<link rel="stylesheet" href="css/styles.css?v=4">
+<style>
+  .confirm-wrap { min-height:calc(100vh - 74px); display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+  .confirm-card { max-width:420px; width:100%; text-align:center; }
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="confirm-wrap">
+  <div class="confirm-card">
+    <div class="icon-tile" style="margin:0 auto 20px;width:56px;height:56px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" stroke="#F0B429" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="#F0B429" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 style="font-size:1.5rem;">Check your email</h1>
+    <p style="margin:0 auto 4px;">We've sent a confirmation link to</p>
+    <p style="margin:0 auto 20px;font-weight:600;color:var(--ink);" id="confirm-email-address">—</p>
+    <p style="font-size:0.9rem;margin:0 auto 24px;">Click the link in that email to verify your account, then come back here to log in. Be sure to check your spam folder if it doesn't show up in a minute or two.</p>
+    <div id="confirm-alert-box"></div>
+    <button class="btn btn-outline btn-block" id="resend-confirmation-btn">Resend confirmation email</button>
+    <a href="auth.html" class="btn btn-outline btn-block mt-16">Back to log in</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/components.js?v=3"></script>
+<script>renderPublicNav("login");</script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email") || "";
+  document.getElementById("confirm-email-address").textContent = email || "your email address";
+
+  document.getElementById("resend-confirmation-btn").addEventListener("click", async () => {
+    const btn = document.getElementById("resend-confirmation-btn");
+    const alertBox = document.getElementById("confirm-alert-box");
+
+    if (!email) {
+      alertBox.innerHTML = `<div class="alert alert-error">No email address found — please sign up again.</div>`;
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+
+    const { error } = await supabaseClient.auth.resend({ type: "signup", email });
+
+    if (error) {
+      alertBox.innerHTML = `<div class="alert alert-error">${error.message}</div>`;
+    } else {
+      alertBox.innerHTML = `<div class="alert alert-success">Confirmation email resent.</div>`;
+    }
+    btn.disabled = false;
+    btn.textContent = "Resend confirmation email";
+  });
+</script>
+</body>
+</html>
