@@ -21,7 +21,8 @@
     <h1 style="font-size:1.5rem;">Check your email</h1>
     <p style="margin:0 auto 4px;">We've sent a confirmation link to</p>
     <p style="margin:0 auto 20px;font-weight:600;color:var(--ink);" id="confirm-email-address">—</p>
-    <p style="font-size:0.9rem;margin:0 auto 24px;">Click the link in that email to verify your account, then come back here to log in. Be sure to check your spam folder if it doesn't show up in a minute or two.</p>
+    <p style="font-size:0.9rem;margin:0 auto 12px;">If this is a new account, click the link in that email to verify it, then come back here to log in. Be sure to check your spam folder if it doesn't show up in a minute or two.</p>
+    <p style="font-size:0.9rem;margin:0 auto 24px;">Already have an account with this email? <a href="auth.html" style="text-decoration:underline;color:var(--ink);">Log in</a> instead, or <a href="#" id="forgot-password-link" style="text-decoration:underline;color:var(--ink);">reset your password</a> if you've forgotten it.</p>
     <div id="confirm-alert-box"></div>
     <button class="btn btn-outline btn-block" id="resend-confirmation-btn">Resend confirmation email</button>
     <a href="auth.html" class="btn btn-outline btn-block mt-16">Back to log in</a>
@@ -36,6 +37,23 @@
   const params = new URLSearchParams(window.location.search);
   const email = params.get("email") || "";
   document.getElementById("confirm-email-address").textContent = email || "your email address";
+
+  document.getElementById("forgot-password-link").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const alertBox = document.getElementById("confirm-alert-box");
+    if (!email) {
+      alertBox.innerHTML = `<div class="alert alert-error">No email address found — please go to the login page.</div>`;
+      return;
+    }
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/reset-password.html",
+    });
+    if (error) {
+      alertBox.innerHTML = `<div class="alert alert-error">${error.message}</div>`;
+    } else {
+      alertBox.innerHTML = `<div class="alert alert-success">If an account exists for this email, a password reset link has been sent.</div>`;
+    }
+  });
 
   document.getElementById("resend-confirmation-btn").addEventListener("click", async () => {
     const btn = document.getElementById("resend-confirmation-btn");
