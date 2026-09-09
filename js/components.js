@@ -54,10 +54,7 @@ function renderFooter(base = "") {
   root.innerHTML = `
     <footer class="footer">
       <div class="container">
-        <div class="flex justify-between items-center" style="flex-wrap:wrap;gap:12px;">
-          <div class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</div>
-          <span class="eyebrow-pill" style="font-size:0.68rem;"><span class="dot"></span>Powered by AI Meal Intelligence</span>
-        </div>
+        <div class="nav-logo">${logoMark()}SugarMax<span class="dot">.</span>AI</div>
         <p class="mt-8" style="max-width:44ch">Scan your meal. Know your sugar. AI-powered nutrition insight for every plate.</p>
         <ul class="footer-links">
           <li><a href="${legalBase}privacy.html">Privacy Policy</a></li>
@@ -67,9 +64,8 @@ function renderFooter(base = "") {
           <li><a href="${legalBase}data-deletion.html">Data Deletion</a></li>
           <li><a href="${legalBase}contact.html">Contact Support</a></li>
         </ul>
-        <div class="flex justify-between items-center mt-24" style="flex-wrap:wrap;gap:12px;border-top:1px solid var(--line-soft);padding-top:18px;">
+        <div class="mt-24" style="border-top:1px solid var(--line-soft);padding-top:18px;">
           <span style="font-size:0.78rem;color:var(--ink-soft);">© 2026 SugarMax AI Inc. All rights reserved.</span>
-          <span class="footer-status"><span class="dot"></span>Neural engine active</span>
         </div>
       </div>
     </footer>`;

@@ -103,27 +103,41 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   const fullName = document.getElementById("signup-name").value.trim();
   const email = document.getElementById("signup-email").value.trim();
 
-  const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName },
-      emailRedirectTo: window.location.origin + "/dashboard.html",
-    },
-  });
+  try {
+    const res = await fetch("https://wobroovxjugckroijuse.supabase.co/functions/v1/secure-signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, full_name: fullName }),
+    });
+    const result = await res.json();
 
-  if (error) {
-    showAlert(error.message);
+    if (!res.ok) {
+      showAlert(result.error || "Could not create account. Please try again.");
+      btn.disabled = false;
+      btn.textContent = "Create account";
+      return;
+    }
+
+    if (result.has_session) {
+      // Email confirmation disabled — hydrate the session and go straight in
+      const { error: sessionError } = await supabaseClient.auth.setSession({
+        access_token: result.access_token,
+        refresh_token: result.refresh_token,
+      });
+      if (sessionError) {
+        showAlert(sessionError.message);
+        btn.disabled = false;
+        btn.textContent = "Create account";
+        return;
+      }
+      window.location.href = "onboarding.html";
+    } else {
+      window.location.href = "confirm-email.html?email=" + encodeURIComponent(email);
+    }
+  } catch (err) {
+    showAlert("Could not reach the server. Please check your connection and try again.");
     btn.disabled = false;
     btn.textContent = "Create account";
-    return;
-  }
-
-  if (data.session) {
-    // Email confirmation disabled — user is signed in immediately
-    window.location.href = "onboarding.html";
-  } else {
-    window.location.href = "confirm-email.html?email=" + encodeURIComponent(email);
   }
 });
 
