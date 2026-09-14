@@ -163,9 +163,3 @@ document.getElementById("google-btn").addEventListener("click", async () => {
     options: { redirectTo: window.location.origin + "/dashboard.html" },
   });
 });
-document.getElementById("apple-btn").addEventListener("click", async () => {
-  await supabaseClient.auth.signInWithOAuth({
-    provider: "apple",
-    options: { redirectTo: window.location.origin + "/dashboard.html" },
-  });
-});

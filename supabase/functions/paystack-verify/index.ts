@@ -8,12 +8,17 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const PAYSTACK_SECRET_KEY = Deno.env.get("PAYSTACK_SECRET_KEY")!;
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const ALLOWED_ORIGINS = ["https://sugarmaxai-app.netlify.app"];
 
-function json(body: unknown, status = 200) {
+function getCorsHeaders(origin: string | null) {
+  const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
+
+function json(body: unknown, status: number, corsHeaders: Record<string, string>) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -21,20 +26,21 @@ function json(body: unknown, status = 200) {
 }
 
 Deno.serve(async (req: Request) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return json({ error: "Missing authorization" }, 401);
+    if (!authHeader) return json({ error: "Missing authorization" }, 401, corsHeaders);
 
     const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user) return json({ error: "Invalid session" }, 401);
+    if (userErr || !userData?.user) return json({ error: "Invalid session" }, 401, corsHeaders);
     const userId = userData.user.id;
 
     const { reference } = await req.json();
-    if (!reference) return json({ error: "reference is required" }, 400);
+    if (!reference) return json({ error: "reference is required" }, 400, corsHeaders);
 
     // Load our payment record and confirm ownership
     const { data: payment, error: paymentErr } = await supabase
@@ -43,11 +49,11 @@ Deno.serve(async (req: Request) => {
       .eq("paystack_reference", reference)
       .eq("user_id", userId)
       .single();
-    if (paymentErr || !payment) return json({ error: "Payment record not found" }, 404);
+    if (paymentErr || !payment) return json({ error: "Payment record not found" }, 404, corsHeaders);
 
     // Idempotency: already processed, don't re-charge scans/renew again
     if (payment.status === "success") {
-      return json({ success: true, already_processed: true });
+      return json({ success: true, already_processed: true }, 200, corsHeaders);
     }
 
     const verifyRes = await fetch(
@@ -58,7 +64,7 @@ Deno.serve(async (req: Request) => {
 
     if (!verifyRes.ok || !verifyData.status) {
       await supabase.from("payments").update({ status: "failed", paystack_response: verifyData }).eq("id", payment.id);
-      return json({ error: "Verification request failed" }, 502);
+      return json({ error: "Verification request failed" }, 502, corsHeaders);
     }
 
     const txn = verifyData.data;
@@ -79,7 +85,7 @@ Deno.serve(async (req: Request) => {
         event_type: "payment_verification_failed",
         metadata: { reference, gateway_status: txn.status },
       });
-      return json({ success: false, status: txn.status });
+      return json({ success: false, status: txn.status }, 200, corsHeaders);
     }
 
     // Determine renewal vs first activation
@@ -105,8 +111,8 @@ Deno.serve(async (req: Request) => {
       metadata: { reference },
     });
 
-    return json({ success: true, plan: "pro" });
+    return json({ success: true, plan: "pro" }, 200, corsHeaders);
   } catch (err) {
-    return json({ error: "Internal error", details: String(err) }, 500);
+    return json({ error: "Internal error", details: String(err) }, 500, corsHeaders);
   }
 });

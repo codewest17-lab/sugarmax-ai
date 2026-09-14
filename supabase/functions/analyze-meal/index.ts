@@ -7,12 +7,17 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY")!;
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const ALLOWED_ORIGINS = ["https://sugarmaxai-app.netlify.app"];
 
-function json(body: unknown, status = 200) {
+function getCorsHeaders(origin: string | null) {
+  const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
+
+function json(body: unknown, status: number, corsHeaders: Record<string, string>) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -52,6 +57,7 @@ const ANALYSIS_PROMPT = `You are a nutrition analysis AI. Analyze the food image
 confidence_score must be between 0 and 1. All numeric nutrition fields are your best estimate in grams (calories in kcal). If the image does not clearly show food, set confidence_score below 0.3 and explain in ai_summary.`;
 
 Deno.serve(async (req: Request) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   // Tracked outside the try block so the catch-all handler below can still
@@ -63,18 +69,18 @@ Deno.serve(async (req: Request) => {
 
   try {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return json({ error: "Missing authorization" }, 401);
+    if (!authHeader) return json({ error: "Missing authorization" }, 401, corsHeaders);
 
     supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
 
     // Verify the calling user from their JWT
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user) return json({ error: "Invalid session" }, 401);
+    if (userErr || !userData?.user) return json({ error: "Invalid session" }, 401, corsHeaders);
     const userId = userData.user.id;
 
     const { scan_id } = await req.json();
-    if (!scan_id) return json({ error: "scan_id is required" }, 400);
+    if (!scan_id) return json({ error: "scan_id is required" }, 400, corsHeaders);
     trackedScanId = scan_id;
 
     // Load scan and confirm ownership
@@ -84,7 +90,7 @@ Deno.serve(async (req: Request) => {
       .eq("id", scan_id)
       .eq("user_id", userId)
       .single();
-    if (scanErr || !scan) return json({ error: "Scan not found" }, 404);
+    if (scanErr || !scan) return json({ error: "Scan not found" }, 404, corsHeaders);
 
     // Check remaining scans BEFORE calling the AI (fail fast, no wasted API cost)
     const { data: sub } = await supabase
@@ -94,7 +100,7 @@ Deno.serve(async (req: Request) => {
       .single();
     if (!sub || sub.scans_remaining <= 0) {
       await supabase.from("scans").update({ status: "failed", error_message: "No scans remaining" }).eq("id", scan_id);
-      return json({ error: "No scans remaining. Please upgrade to Pro." }, 402);
+      return json({ error: "No scans remaining. Please upgrade to Pro." }, 402, corsHeaders);
     }
 
     await supabase.from("scans").update({ status: "processing" }).eq("id", scan_id);
@@ -106,7 +112,7 @@ Deno.serve(async (req: Request) => {
       .download(path);
     if (downloadErr || !fileData) {
       await supabase.from("scans").update({ status: "failed", error_message: "Could not read image" }).eq("id", scan_id);
-      return json({ error: "Could not read uploaded image" }, 500);
+      return json({ error: "Could not read uploaded image" }, 500, corsHeaders);
     }
 
     const arrayBuffer = await fileData.arrayBuffer();
@@ -137,14 +143,14 @@ Deno.serve(async (req: Request) => {
       const errText = await geminiRes.text();
       console.error("analyze-meal: Gemini rejected request:", geminiRes.status, errText);
       await supabase.from("scans").update({ status: "failed", error_message: "AI analysis failed" }).eq("id", scan_id);
-      return json({ error: "AI analysis failed", details: errText }, 502);
+      return json({ error: "AI analysis failed", details: errText }, 502, corsHeaders);
     }
 
     const geminiData = await geminiRes.json();
     const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!rawText) {
       await supabase.from("scans").update({ status: "failed", error_message: "Empty AI response" }).eq("id", scan_id);
-      return json({ error: "AI returned no result" }, 502);
+      return json({ error: "AI returned no result" }, 502, corsHeaders);
     }
 
     let parsed;
@@ -152,7 +158,7 @@ Deno.serve(async (req: Request) => {
       parsed = JSON.parse(rawText.replace(/```json|```/g, "").trim());
     } catch {
       await supabase.from("scans").update({ status: "failed", error_message: "Malformed AI response" }).eq("id", scan_id);
-      return json({ error: "Could not parse AI result" }, 502);
+      return json({ error: "Could not parse AI result" }, 502, corsHeaders);
     }
 
     // Save results
@@ -186,7 +192,7 @@ Deno.serve(async (req: Request) => {
       metadata: { scan_id, deducted },
     });
 
-    return json({ success: true, scan_id, deducted });
+    return json({ success: true, scan_id, deducted }, 200, corsHeaders);
   } catch (err) {
     console.error("analyze-meal error:", err);
     if (supabase && trackedScanId) {
@@ -196,6 +202,6 @@ Deno.serve(async (req: Request) => {
         console.error("analyze-meal: failed to mark scan as failed after crash:", updateErr);
       }
     }
-    return json({ error: "Internal error", details: String(err) }, 500);
+    return json({ error: "Internal error", details: String(err) }, 500, corsHeaders);
   }
 });
