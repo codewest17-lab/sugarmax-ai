@@ -3,25 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0B1F17">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>SugarMax AI — Scan Your Meal. Know Your Sugar.</title>
 <meta name="description" content="Point your camera at any meal and get an instant AI-powered breakdown of sugar, calories, and nutrition.">
-<link rel="stylesheet" href="css/styles.css?v=4">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#059669">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
 <div id="nav-root"></div>
 
 <header class="hero-dark">
-  <div class="reticle" style="width:520px;height:520px;top:-200px;right:-160px;"></div>
-  <div class="reticle" style="width:340px;height:340px;top:-70px;right:-30px;"></div>
   <div class="container">
     <div class="grid-2" style="align-items:center;">
       <div>
         <span class="eyebrow-pill rise-in rise-in-1"><span class="dot"></span>AI Meal Intelligence</span>
-        <h1 class="rise-in rise-in-2 mt-16" style="font-size:3.1rem;">Scan your meal.<br><em style="font-style:italic;font-weight:500;color:var(--honey);">Know your sugar.</em></h1>
-        <p class="rise-in rise-in-3" style="font-size:1.05rem;max-width:44ch;">Point your camera at any plate. In seconds, SugarMax AI reads the sugar, calories, and full nutrition breakdown — the way a label would, if your food came with one.</p>
+        <h1 class="rise-in rise-in-2 mt-16" style="font-size:3.1rem;">Scan your meal.<br><span style="background:linear-gradient(90deg,#059669,#34D399 60%,#60A5FA);-webkit-background-clip:text;background-clip:text;color:transparent;">Know your sugar.</span></h1>
+        <p class="rise-in rise-in-3" style="font-size:1.08rem;max-width:44ch;">Point your camera at any plate. In seconds, SugarMax AI reads the sugar, calories, and full nutrition breakdown — the way a label would, if your food came with one.</p>
         <div class="flex gap-16 mt-24 rise-in rise-in-4" style="flex-wrap:wrap;">
           <a href="auth.html?mode=signup" class="btn btn-primary">Start free scan</a>
           <a href="pricing.html" class="btn btn-outline">View pricing</a>
@@ -33,24 +31,27 @@
         <div class="scan-mock">
           <div class="scan-mock-photo">
             <div class="scan-corner tl"></div>
+            <div class="scan-corner tr"></div>
+            <div class="scan-corner bl"></div>
             <div class="scan-corner br"></div>
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" opacity="0.9"><path d="M8 3h8l1 3h2a1 1 0 011 1v11a2 2 0 01-2 2H6a2 2 0 01-2-2V7a1 1 0 011-1h2l1-3z" stroke="#F0B429" stroke-width="1.3"/><circle cx="12" cy="13" r="4" stroke="#F0B429" stroke-width="1.3"/></svg>
+            <img src="icons/icon-512.png" alt="Scanned meal">
+            <div class="scanline"></div>
           </div>
           <div style="padding:16px 18px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;">
             <div>
-              <div class="step-num" style="text-transform:uppercase;">Detected</div>
-              <div style="font-weight:600;margin-top:2px;">Iced oat-milk latte</div>
+              <div class="step-num">Detected</div>
+              <div style="font-weight:700;margin-top:2px;">Grilled chicken bowl</div>
             </div>
-            <span class="badge badge-honey">94% Confidence</span>
+            <span class="badge badge-forest">94% Confidence</span>
           </div>
           <div class="label-row hero">
-            <span class="name">Sugar per serving<br><span style="font-size:0.75rem;opacity:0.7;">Equates to 3.5 teaspoons</span></span>
+            <span class="name">Sugar per serving<br><span style="font-size:0.75rem;opacity:0.7;font-weight:500;">Equates to 3.5 teaspoons</span></span>
             <span class="value">14g</span>
           </div>
           <div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
-            <div><div class="step-num">Calories</div><div style="font-weight:600;margin-top:2px;">190<span style="font-size:0.7rem;color:var(--ink-soft);"> kcal</span></div></div>
-            <div><div class="step-num">Carbs</div><div style="font-weight:600;margin-top:2px;">22<span style="font-size:0.7rem;color:var(--ink-soft);">g</span></div></div>
-            <div><div class="step-num">Protein</div><div style="font-weight:600;margin-top:2px;">6<span style="font-size:0.7rem;color:var(--ink-soft);">g</span></div></div>
+            <div><div class="step-num">Calories</div><div style="font-weight:700;margin-top:2px;">190<span style="font-size:0.7rem;color:var(--ink-soft);"> kcal</span></div></div>
+            <div><div class="step-num">Carbs</div><div style="font-weight:700;margin-top:2px;">22<span style="font-size:0.7rem;color:var(--ink-soft);">g</span></div></div>
+            <div><div class="step-num">Protein</div><div style="font-weight:700;margin-top:2px;">28<span style="font-size:0.7rem;color:var(--ink-soft);">g</span></div></div>
           </div>
         </div>
       </div>
@@ -67,30 +68,30 @@
     <div class="grid-3 mt-40">
       <div class="card">
         <div class="flex justify-between items-start">
-          <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 012-2h1.2l.6-1.2A2 2 0 019.6 3.6h4.8a2 2 0 011.8 1.2l.6 1.2H18a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="#F0B429" stroke-width="1.6"/><circle cx="12" cy="13" r="3.2" stroke="#F0B429" stroke-width="1.6"/></svg></div>
+          <div class="icon-tile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 012-2h1.2l.6-1.2A2 2 0 019.6 3.6h4.8a2 2 0 011.8 1.2l.6 1.2H18a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="#fff" stroke-width="1.7"/><circle cx="12" cy="13" r="3.2" stroke="#fff" stroke-width="1.7"/></svg></div>
           <span class="badge badge-outline">Step 01</span>
         </div>
         <h3 style="font-size:1.15rem;">Snap a photo</h3>
         <p>Take a picture of your meal, or upload one from your camera roll.</p>
-        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#4ADE95" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Zero manual calorie searching</div>
+        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#10B981" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Zero manual calorie searching</div>
       </div>
       <div class="card">
         <div class="flex justify-between items-start">
-          <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" stroke="#F0B429" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 15l.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7.7-2.1z" stroke="#F0B429" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          <div class="icon-tile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M18.5 15l.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7.7-2.1z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
           <span class="badge badge-outline">Step 02</span>
         </div>
         <h3 style="font-size:1.15rem;">AI reads the plate</h3>
         <p>Our model identifies each food, estimates portion size, and calculates sugar, calories, and macros.</p>
-        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#4ADE95" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Computer vision + nutrition DB</div>
+        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#10B981" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Computer vision + nutrition DB</div>
       </div>
       <div class="card">
         <div class="flex justify-between items-start">
-          <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19V11M11 19V5M18 19v-6" stroke="#F0B429" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="icon-tile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V11M11 19V5M18 19v-6" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/></svg></div>
           <span class="badge badge-outline">Step 03</span>
         </div>
         <h3 style="font-size:1.15rem;">Get the full picture</h3>
         <p>See a clear nutrition breakdown and a plain-language insight — saved to your history automatically.</p>
-        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#4ADE95" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Actionable dietary transparency</div>
+        <div class="check-line"><svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#10B981" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Actionable dietary transparency</div>
       </div>
     </div>
   </div>
@@ -116,29 +117,29 @@
         <h3 style="font-size:1.2rem;">What you get per scan</h3>
         <div class="mt-16">
           <div class="feature-row">
-            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 3v7M5 3v4a2 2 0 004 0V3M17 3c-2 0-3 2-3 5s1 4 3 4v9" stroke="#F0B429" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 3v7M5 3v4a2 2 0 004 0V3M17 3c-2 0-3 2-3 5s1 4 3 4v9" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>
             <span class="f-label">Detected foods</span>
-            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="feature-row">
-            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#F0B429" stroke-width="1.5"/><path d="M12 4v8l5 3" stroke="#F0B429" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#059669" stroke-width="1.5"/><path d="M12 4v8l5 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>
             <span class="f-label">Sugar, calories, carbs, protein, fat, fiber</span>
-            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="feature-row">
-            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3" stroke="#F0B429" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <span class="f-label">Portion size estimate</span>
-            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="feature-row">
-            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#F0B429" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#059669" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
             <span class="f-label">Plain-language health insight</span>
-            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="feature-row">
-            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="#F0B429" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+            <div class="f-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="#059669" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
             <span class="f-label">Confidence score</span>
-            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#4ADE95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="f-check"><svg width="12" height="12" viewBox="0 0 18 18" fill="none"><path d="M5.5 9.2l2.2 2.2 4.8-4.8" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
         </div>
       </div>
@@ -146,20 +147,22 @@
   </div>
 </section>
 
-<section class="cta-band">
-  <div class="container-narrow">
-    <div class="cta-glow-icon">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3" stroke="#F0B429" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2.5" fill="#F0B429"/></svg>
+<div class="container">
+  <section class="cta-band">
+    <div class="container-narrow">
+      <div class="cta-glow-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2.5" fill="#fff"/></svg>
+      </div>
+      <h2 style="font-size:2rem;">Ready to see what's on your plate?</h2>
+      <p style="margin:0 auto 28px;">Your first two scans are free. No credit card needed to start.</p>
+      <a href="auth.html?mode=signup" class="btn" style="background:#fff;color:#059669;">Start free scan</a>
     </div>
-    <h2 style="font-size:2rem;">Ready to see what's on your plate?</h2>
-    <p style="margin:0 auto 28px;">Your first two scans are free. No credit card needed to start.</p>
-    <a href="auth.html?mode=signup" class="btn btn-primary">Start free scan</a>
-  </div>
-</section>
+  </section>
+</div>
 
 <div id="footer-root"></div>
 
-<script src="js/components.js?v=3"></script>
+<script src="js/components.js?v=4"></script>
 <script>renderPublicNav("how"); renderFooter();</script>
 <script src="js/pwa.js" defer></script>
 </body>

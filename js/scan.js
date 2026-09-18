@@ -1,7 +1,9 @@
 // SugarMax AI — scan.html logic
 
 let selectedFile = null;
+let selectedImageDataUrl = null;
 let currentUserId = null;
+let statusInterval = null;
 
 function showAlert(msg, type = "error") {
   document.getElementById("alert-box").innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
@@ -53,6 +55,7 @@ function handleFile(file) {
   selectedFile = file;
   const reader = new FileReader();
   reader.onload = (e) => {
+    selectedImageDataUrl = e.target.result;
     previewImg.src = e.target.result;
     previewImg.style.display = "inline-block";
     dropzoneEmpty.style.display = "none";
@@ -62,11 +65,30 @@ function handleFile(file) {
   document.getElementById("alert-box").innerHTML = "";
 }
 
+const SCAN_STATUS_MESSAGES = [
+  "Reading your plate…",
+  "Identifying foods…",
+  "Estimating portion size…",
+  "Calculating sugar & nutrition…",
+];
+
 analyzeBtn.addEventListener("click", async () => {
   if (!selectedFile || !currentUserId) return;
   document.getElementById("alert-box").innerHTML = "";
   document.getElementById("upload-stage").style.display = "none";
-  document.getElementById("loading-stage").style.display = "block";
+  document.getElementById("scanning-stage").style.display = "block";
+
+  // Show the actual uploaded photo under the scanning animation — not a
+  // generic placeholder — so the person sees their real meal being "read".
+  document.getElementById("scan-photo").src = selectedImageDataUrl;
+
+  let statusIdx = 0;
+  const statusEl = document.getElementById("scan-status-text");
+  statusEl.textContent = SCAN_STATUS_MESSAGES[0];
+  statusInterval = setInterval(() => {
+    statusIdx = (statusIdx + 1) % SCAN_STATUS_MESSAGES.length;
+    statusEl.textContent = SCAN_STATUS_MESSAGES[statusIdx];
+  }, 2200);
 
   try {
     const ext = selectedFile.name.split(".").pop() || "jpg";
@@ -99,9 +121,11 @@ analyzeBtn.addEventListener("click", async () => {
       throw new Error(result.error || "Analysis failed");
     }
 
+    clearInterval(statusInterval);
     window.location.href = `results.html?id=${scanRow.id}`;
   } catch (err) {
-    document.getElementById("loading-stage").style.display = "none";
+    clearInterval(statusInterval);
+    document.getElementById("scanning-stage").style.display = "none";
     document.getElementById("upload-stage").style.display = "block";
     showAlert(err.message || "Something went wrong. Please try again.");
   }
