@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0B1F17">
+<meta name="theme-color" content="#059669">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>Scan history — SugarMax AI</title>
-<link rel="stylesheet" href="css/styles.css?v=4">
+<link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
 <div id="nav-root"></div>
@@ -15,9 +15,9 @@
 <div class="container section">
   <div class="flex justify-between items-center" style="flex-wrap:wrap;gap:16px;">
     <h1 style="font-size:1.9rem;margin:0;">Scan history</h1>
-    <input type="search" id="search-input" placeholder="Search meals…" style="padding:10px 14px;border:2px solid var(--line);border-radius:3px;font-family:var(--font-body);min-width:220px;">
+    <input type="search" id="search-input" placeholder="Search meals…" style="padding:12px 16px;border:1.5px solid #E2ECE7;border-radius:14px;font-family:inherit;min-width:220px;background:rgba(255,255,255,0.85);">
   </div>
-  <div id="history-list" class="mt-24">
+  <div id="history-list" class="mt-16">
     <p class="muted">Loading…</p>
   </div>
 </div>
@@ -26,7 +26,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
-<script src="js/components.js?v=3"></script>
+<script src="js/components.js?v=4"></script>
 <script src="js/history.js"></script>
 <script>renderAppNav("history"); renderFooter();</script>
 <script src="js/pwa.js" defer></script>
