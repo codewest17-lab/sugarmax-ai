@@ -4,18 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0B1F17">
+<meta name="theme-color" content="#059669">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>Dashboard — SugarMax AI</title>
-<link rel="stylesheet" href="css/styles.css?v=4">
+<link rel="stylesheet" href="css/styles.css?v=5">
+<style>
+  .greet-card {
+    padding:34px 36px;border-radius:var(--radius-lg);position:relative;overflow:hidden;color:#fff;margin-bottom:26px;
+    background:linear-gradient(120deg,#064E3B 0%,#059669 55%,#34D399 130%);box-shadow:0 30px 60px -25px rgba(5,150,105,.55);
+  }
+  .greet-card::after{content:"";position:absolute;right:-70px;top:-90px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.09)}
+  .greet-card::before{content:"";position:absolute;right:60px;bottom:-120px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.07)}
+  .greet-card h1{font-size:1.6rem;position:relative;z-index:1;}
+  .greet-card p{margin-top:8px;font-size:0.95rem;opacity:.85;line-height:1.6;max-width:520px;position:relative;z-index:1;color:#fff;}
+  .greet-actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1;}
+  .greet-actions .btn-white{background:#fff;color:var(--forest);border:none;}
+  .greet-actions .btn-glass{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;backdrop-filter:blur(8px);}
+</style>
 </head>
 <body>
 <div id="nav-root"></div>
 
 <div class="container section">
-  <div id="greeting-block">
-    <h1 id="greeting" style="font-size:2rem;">Welcome back</h1>
-    <p id="sub-status" class="muted">Loading your account…</p>
+  <div class="greet-card">
+    <h1 id="greeting">Welcome back</h1>
+    <p id="sub-status">Loading your account…</p>
+    <div class="greet-actions">
+      <a href="scan.html" class="btn btn-white btn-sm">Scan a meal</a>
+      <a href="pricing.html" class="btn btn-glass btn-sm" id="upgrade-btn" style="display:none;">Upgrade to Pro</a>
+    </div>
   </div>
 
   <div class="grid-2 mt-24" style="align-items:start;">
@@ -32,14 +49,13 @@
       <h3 style="font-size:1.1rem;">Ready to scan?</h3>
       <p>Snap a photo of your meal and get sugar, calories, and full nutrition in seconds.</p>
       <a href="scan.html" class="btn btn-primary btn-block">Upload meal photo</a>
-      <a href="pricing.html" class="btn btn-outline btn-block mt-16" id="upgrade-btn" style="display:none;">Upgrade to Pro</a>
     </div>
   </div>
 
   <div class="mt-40">
     <div class="flex justify-between items-center">
       <h2 style="font-size:1.3rem;margin:0;">Recent scans</h2>
-      <a href="history.html" style="font-size:0.9rem;text-decoration:underline;">View all</a>
+      <a href="history.html" style="font-size:0.9rem;font-weight:600;text-decoration:underline;color:var(--mint-deep);">View all</a>
     </div>
     <div id="recent-scans" class="mt-16">
       <p class="muted">Loading…</p>
@@ -51,7 +67,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
-<script src="js/components.js?v=3"></script>
+<script src="js/components.js?v=4"></script>
 <script src="js/dashboard.js"></script>
 <script>renderAppNav("dashboard"); renderFooter();</script>
 <script src="js/pwa.js" defer></script>
